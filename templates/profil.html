@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Software Forum</title>
+    <link rel="stylesheet" href="/style/style_home.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" src="https://cdn2.steamgriddb.com/icon/e22dd5dabde45eda5a1a67772c8e25dd.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <div class="header_flex_box">
+            <nav>
+                <a href="/"><i class='bx bxs-home'></i></a>
+            </nav>
+            <div style="text-align: center;">
+                 <h2>FROM SOFTWARE FORUM</h2>
+            </div>
+            <nav>
+                <a href="/delete"><i class='bx bx-log-out'></i></a> 
+            </nav>
+        </div>
+    </header>
+    <main>
+       <p> DETAIL PROFIL </p>
+       <p>{{.User.Username}}</p>
+       <p>{{.User.Mail}}</p>
+
+       <div>
+       {{range Get_post_by_user_id .User.ID}}
+            <div class="post_space">
+                <h4>SUBJECT : {{.Title}}</h4>
+                <br>
+                    Post Author: {{.Author}} at {{.Creation_date}}
+                    <p> - - - - - Categories du post - - - - - - </p>
+                    <p>{{Get_categories_by_post_id .ID}}</p>
+                    <p> - - - - - Contenu du post - - - - - - </p>
+                    <p>{{.Content}}</p>
+                    <p>- - - image du post - - -</p>
+                        <img src="{{.Image}}" alt="Image of post" style="max-width: 500px;">
+            </div>
+       {{end}}
+       </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Forum</title>
+    <link rel="stylesheet" href="/style/style_reg.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" src="https://cdn2.steamgriddb.com/icon/e22dd5dabde45eda5a1a67772c8e25dd.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="wrapper">
+        <form action="/register" method="post">
+            <h1>REGISTER</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Username" name="username" id="username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="email" placeholder="E-mail" name="mail" id="mail" required>
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" name="password" id="password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Comfirm password" name="confirm_password" id="confirm_password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn">Register</button>
+            
+            <div class="register-link">
+                <p><a href="/login">Back to login</a></p>
+                <p>or</p>
+                <a href="/"><i class='bx bxs-home'></i></a style>
+            </div>
+            
+        </form>
+    </div>
+</body>
+</html>

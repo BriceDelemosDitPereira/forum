@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Software Forum</title>
+    <link rel="stylesheet" href="/style/style_home.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" src="https://cdn2.steamgriddb.com/icon/e22dd5dabde45eda5a1a67772c8e25dd.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <div class="header_flex_box">
+            <nav>
+                <a href="#"><img src="/style/ressources/fire-circle-mark.png" alt="fire-circle" style="width: 120px;"></a>
+            </nav>
+            <div style="text-align: center;">
+                <h1>FIRELINK SHRINE</h1>
+            </div>
+            <nav>
+            <a href="/register"><i class='bx bx-user-plus' ></i></a>
+            <br>
+            <br>
+            <a href="/login"><i class='bx bx-log-in'></i></a>    
+            </nav>
+        </div>
+    </header>
+    <br><br>
+    <main>
+        <div>
+            <h2 style="text-align: center;">Welcome, Ashen One, here you'll find lots of information about From Software's various Soul Like titles. Don't get lost in this forum, so... prithee be careful.</h2>
+        </div>
+        <div>
+            <h2><img src="/style/ressources/solar-emblem.png" alt="solar emblem" style="width: 100px;"> New Messages</h2>
+            <br>
+            {{range $Posts := .Posts}}
+            <div class="post_space">
+                <h4>SUBJECT : {{.Title}}</h4>
+                <br>
+                    Post Author: {{Get_username_by_id .User_id}} at {{.Creation_date}}
+                    <p> - - - - - Categories du post - - - - - - </p>
+                    <p>{{Get_categories_by_post_id .ID}}</p>
+                    <p> - - - - - Contenu du post - - - - - - </p>
+                    <p>{{.Content}}</p>
+                    <p>Like : {{.Like}} Dislike : {{.Dislike}}</p>
+                <br>
+                <details>
+                    <summary>Show Comments</summary>
+                <p>- - - - - Comment - - - - -</p>
+                {{range $postID, $comments := .CommentsMap}}
+                        {{range $comments}}
+                            {{if eq $postID .Post_id}}
+                                <p>{{Get_username_by_id .User_id}} at {{.Creation_date}}</p>
+                                <p> - - - - - Contenu du commentaire - - - - - - </p>
+                                <p>{{.Content}}</p>
+                                <p>Like : {{.Like}} Dislike : {{.Dislike}}</p>
+                            {{end}}
+                        {{end}}
+                    {{end}}
+                </details> 
+        </div>
+        {{end}}
+        <br>
+        </div>
+    </main>
+</body>
+</html>
