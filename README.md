@@ -14,6 +14,7 @@ The "Forum" project is a web-based forum application developed in Go. It provide
 - **Session Management:** Each user session is managed using cookies, allowing users to remain logged in for a specified period.
 - **Database:** Data such as users, posts, comments, etc., is stored using the SQLite database library. Queries are used for operations such as creating, retrieving, and inserting data.
 - **Dockerization:** The project is containerized using Docker, providing a consistent environment for development and deployment.
+- Styled with CSS inspired by ***FromSoftWare***.
 
 ## Usage
 
