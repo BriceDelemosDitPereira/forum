@@ -29,7 +29,7 @@
     <main>
         <div>
             <h2>WRITE NEW MESSAGE</h2>
-            <form action="/create_post" method="post" enctype="multipart/form-data">
+            <form action="/create_post" method="post" enctype="multipart/form-data" class="formulaire">
                 <label for="title">
                     <h3>Title :</h3>
                 </label>
@@ -71,7 +71,7 @@
                         </span>
                     </label>
                 </div>
-                <button type="submit">Create Post</button>
+                <button type="submit" class="submit">Create Post</button>
             </form>
         </div>
         <br>
@@ -79,14 +79,14 @@
         <h4>
             Filter with categories --
         </h4>
-        <form action="/home_connected" method="post" style="display: flex; flex-direction: row;">
+        <form action="/home_connected" method="post" style="display: flex; flex-direction: row;" class="formulaire">
             <input type="checkbox" id="General" name="filter" value="General">
             <label for="general">General &nbsp;</label>
             <input type="checkbox" id="Lore" name="filter" value="Lore">
             <label for="lore">Lore&nbsp;</label>
             <input type="checkbox" id="Games" name="filter" value="Games">
             <label for="astuce">Games&nbsp;</label>
-            <button>Submit</button>
+            <button class="submit">Submit</button>
         </form>
         <br>
         {{range $Posts := .Posts}}
@@ -94,50 +94,50 @@
             <h4>SUBJECT : {{.Title}}</h4>
             <br>
             Post Author: {{Get_username_by_id .User_id}} at {{.Creation_date}}
-            <p> - - - - - Categories du post - - - - - - </p>
             <p>{{Get_categories_by_post_id .ID}}</p>
-            <p> - - - - - Contenu du post - - - - - - </p>
-            <p>{{.Content}}</p>
-            <p>- - - image du post - - -</p>
-            <img src="{{.Image}}" alt="Image of post" style="max-width: 500px;">
-            <div style="display:flexbox; width: 50%;">
-                <form action="/like_post" method="post">
+            <p>{{   .Content}}</p>
+            <img src="{{.Image}}" style="max-width: 500px;">
+            <div class="like-dislike-display">
+                <form action="/like_post" method="post" >
                     <input type="hidden" id="post_id" name="post_id" value="{{.ID}}">
-                    <button type="submit" id="post_like" name="post_like" value="1">Like : {{.Like}} </button>
+                    <button type="submit" id="post_like" name="post_like" value="1" class="like-dislike-button like"><i class='bx bxs-like'></i> {{.Like}} </button>
                 </form>
                 <form action="/like_post" method="post">
                     <input type="hidden" id="post_id" name="post_id" value="{{.ID}}">
-                    <button type="submit" id="post_dislike" name="post_dislike" value="-1">Dislike :
-                        {{.Dislike}}</button>
+                    <button type="submit" id="post_dislike" name="post_dislike" value="-1" class="like-dislike-button dislike"><i class='bx bxs-dislike' ></i> {{.Dislike}}</button>
                 </form>
             </div>
-            <form action="/create_comment" method="post">
+            <br>
+            <details>
+                <summary>Show comments</summary>
+                {{range $postID, $comments := .CommentsMap}}
+                {{range $comments}}
+                {{if eq $postID .Post_id}}
+                <p>{{Get_username_by_id .User_id}} at {{.Creation_date}}</p>
+                <p>{{   .Content}}</p>
+                <div class="like-dislike-display">
+                    <form action="/like_post" method="post">
+                        <input type="hidden" id="comments_id" name="comments_id" value="{{.ID}}">
+                        <button type="submit" id="post_like" name="post_like" value="1" class="like-dislike-button like"><i class='bx bxs-like'></i> {{.Like}} </button>
+                    </form>
+                    <form action="/like_post" method="post">
+                        <input type="hidden" id="comments_id" name="comments_id" value="{{.ID}}">
+                        <button type="submit" id="post_dislike" name="post_dislike" value="-1" class="like-dislike-button dislike"><i class='bx bxs-dislike' ></i> {{.Dislike}}</button>
+                    </form>
+                </div>
+                <p align="center">__________________________________________________</p>
+                {{end}}
+                {{end}}
+                {{end}}
+            </details>
+            <br>
+            <form action="/create_comment" method="post" class="formulaire">
                 <input type="hidden" name="post_id" value="{{.ID}}">
                 <label for="comments">Comment:</label>
                 <textarea rows="7" name="content" id="comments" required></textarea>
                 <br>
-                <button type="submit">Create Comment</button>
+                <button type="submit" class="submit">Create Comment</button>
             </form>
-            {{range $postID, $comments := .CommentsMap}}
-            {{range $comments}}
-            {{if eq $postID .Post_id}}
-            <p>{{Get_username_by_id .User_id}} at {{.Creation_date}}</p>
-            <p> - - - - - Contenu du commentaire - - - - - - </p>
-            <p>{{.Content}}</p>
-            <div style="display:flexbox; width: 50%;">
-                <form action="/like_post" method="post">
-                    <input type="hidden" id="comments_id" name="comments_id" value="{{.ID}}">
-                    <button type="submit" id="post_like" name="post_like" value="1">Like : {{.Like}} </button>
-                </form>
-                <form action="/like_post" method="post">
-                    <input type="hidden" id="comments_id" name="comments_id" value="{{.ID}}">
-                    <button type="submit" id="post_dislike" name="post_dislike" value="-1">Dislike :
-                        {{.Dislike}}</button>
-                </form>
-            </div>
-            {{end}}
-            {{end}}
-            {{end}}
         </div>
         {{end}}
         <br>

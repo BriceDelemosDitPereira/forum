@@ -109,3 +109,55 @@ func LikePostsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("redirect from like.go LikePostsHandler to home.go home_connected")
 	http.Redirect(w, r, "/home_connected?id="+strconv.Itoa(User.ID), http.StatusSeeOther)
 }
+
+func Get_post_by_like(user_id int) (posts []Post) {
+	db, err := sql.Open("sqlite3", "./database/forum.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	queryLike, err := db.Prepare("SELECT posts_id FROM POST_LIKE_DISLIKE WHERE users_id = ? AND like_status = 1")
+	if err != nil {
+		fmt.Println("error exe recup queryLike from Get_post_by_like", err)
+	}
+	defer queryLike.Close()
+	rowsLike, err := queryLike.Query(user_id)
+	if err != nil {
+		fmt.Println("error exe scan queryLike from Get_post_by_like", err)
+		return
+	}
+	defer rowsLike.Close()
+	for rowsLike.Next() {
+		var p Post
+		err = rowsLike.Scan(&p.ID)
+		if err != nil {
+			fmt.Println("error exe scan from Get_post_by_like", err)
+			return
+		}
+		queryLike := `SELECT COUNT(*) FROM POST_LIKE_DISLIKE WHERE like_status = 1 AND posts_id = ?;`
+		err := db.QueryRow(queryLike, p.ID).Scan(&p.Like)
+		// err = row.Scan(&p.Like)
+		if err != nil {
+			fmt.Print("In Get all post ", err, p.ID, p.Like, p.Dislike)
+		}
+		queryDislike := `SELECT COUNT(*) FROM POST_LIKE_DISLIKE WHERE like_status = -1 AND posts_id = ?;`
+		err = db.QueryRow(queryDislike, p.ID).Scan(&p.Dislike)
+		// err = rowDislike.Scan(&p.Like)
+		if err != nil {
+			fmt.Print("In Get all post ", err, p.ID, p.Like, p.Dislike)
+		}
+		// requete de récupération du contenu du post
+		query, err := db.Prepare(`SELECT post.title, post.content, post.image, post.publication_date, 
+ 		users.username
+ 		FROM post 
+ 		INNER JOIN users ON users.id = post.users_id
+ 		WHERE users_id = ? ORDER BY publication_date DESC`)
+		if err != nil {
+			fmt.Println("error exe recup if from Get_post_by_user_id", err)
+		}
+		query.QueryRow(p.ID).Scan(&p.Title, &p.Content, &p.Image, &p.Creation_date, &p.Author)
+		posts = append(posts, p)
+	}
+	fmt.Println("POST LIKE : ", posts)
+	return posts
+}

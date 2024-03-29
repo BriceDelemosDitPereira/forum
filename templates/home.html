@@ -39,26 +39,24 @@
                 <h4>SUBJECT : {{.Title}}</h4>
                 <br>
                     Post Author: {{Get_username_by_id .User_id}} at {{.Creation_date}}
-                    <p> - - - - - Categories du post - - - - - - </p>
                     <p>{{Get_categories_by_post_id .ID}}</p>
-                    <p> - - - - - Contenu du post - - - - - - </p>
-                    <p>{{.Content}}</p>
-                    <p>Like : {{.Like}} Dislike : {{.Dislike}}</p>
+                    <p>{{   .Content}}</p>
+                    <p><i class='bx bxs-like'></i>  {{.Like}} <i class='bx bxs-dislike' ></i> {{.Dislike}}</p>
                 <br>
                 <details>
                     <summary>Show Comments</summary>
-                <p>- - - - - Comment - - - - -</p>
-                {{range $postID, $comments := .CommentsMap}}
+                
+                    {{range $postID, $comments := .CommentsMap}}
                         {{range $comments}}
                             {{if eq $postID .Post_id}}
                                 <p>{{Get_username_by_id .User_id}} at {{.Creation_date}}</p>
-                                <p> - - - - - Contenu du commentaire - - - - - - </p>
                                 <p>{{.Content}}</p>
-                                <p>Like : {{.Like}} Dislike : {{.Dislike}}</p>
-                            {{end}}
+                                <p><i class='bx bxs-like'></i> {{.Like}} <i class='bx bxs-dislike'></i> {{.Dislike}}</p>
+                                <p align="center">__________________________________________________</p>
+                                {{end}}
                         {{end}}
                     {{end}}
-                </details> 
+                </details>
         </div>
         {{end}}
         <br>

@@ -18,6 +18,7 @@ func Profil_handler(w http.ResponseWriter, r *http.Request) {
 				"Get_username_by_id":        Get_username_by_id,
 				"Get_categories_by_post_id": Get_categories_by_post_id,
 				"Get_post_by_user_id":       Get_post_by_user_id,
+				"Get_post_by_like":          Get_post_by_like,
 			}).ParseFiles("templates/profil.html")
 			_ = tmpl.ExecuteTemplate(w, "profil.html", struct {
 				User  Users

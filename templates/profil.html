@@ -27,23 +27,37 @@
        <p> DETAIL PROFIL </p>
        <p>{{.User.Username}}</p>
        <p>{{.User.Mail}}</p>
-
        <div>
        {{range Get_post_by_user_id .User.ID}}
             <div class="post_space">
                 <h4>SUBJECT : {{.Title}}</h4>
                 <br>
                     Post Author: {{.Author}} at {{.Creation_date}}
-                    <p> - - - - - Categories du post - - - - - - </p>
                     <p>{{Get_categories_by_post_id .ID}}</p>
-                    <p> - - - - - Contenu du post - - - - - - </p>
                     <p>{{.Content}}</p>
-                    <p>- - - image du post - - -</p>
-                        <img src="{{.Image}}" alt="Image of post" style="max-width: 500px;">
+                    <img src="{{.Image}}" alt="Image of post" style="max-width: 500px;">
             </div>
        {{end}}
        </div>
-
+       <details>
+        <summary>Posts Liked</summary>
+        <div>
+            {{range Get_post_by_like .User.ID}}
+            <div class="post_space">
+                <h4>SUBJECT : {{.Title}}</h4>
+                <br>
+                Post Author: {{.Author}} at {{.Creation_date}}
+                <p> - - - - - Categories du post - - - - - - </p>
+                <p>{{Get_categories_by_post_id .ID}}</p>
+                <p> - - - - - Contenu du post - - - - - - </p>
+                <p>{{.Content}}</p>
+                <p>- - - image du post - - -</p>
+                <img src="{{.Image}}" alt="Image of post" style="max-width: 500px;">
+                <p>Like : {{.Like}} Dislike : {{.Dislike}}</p>
+            </div>
+            {{end}}
+        </div>
+    </details>
     </main>
 
 </body>
